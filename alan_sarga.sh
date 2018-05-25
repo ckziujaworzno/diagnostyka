@@ -8,8 +8,8 @@ info()
 	ramt=$(free -m |grep [0-9]|head -n 1|awk '{print $2}')
 	ramf=$(free -m |grep [0-9]|head -n 1 |awk '{print $4}')
 	ramu=$(free -m |grep [0-9]|head -n 1 |awk '{print $3}')
-	typramu=$(sudo dmidecode -t 17 |grep -i Type | head -2 | cut c-11 | grep -i type|awk '{print $2}')
-	ramczestotliwosc=$(sudo dmidecode -t 17 | grep -i speed |head -n1 | cut -d: -f2)
+	typramu=$( dmidecode -t 17 |grep -i Type | head -2 | cut -c -11 | grep -i type | awk '{print $2}')
+	ramczestotliwosc=$(dmidecode -t 17 | grep -i speed |head -n1 | cut -d: -f2)
 
 #paramery procesora
 	cpu1=$(cat /proc/cpuinfo |grep "model name" |head -n 1| cut -f2 -d:|awk '{print $1}')
@@ -31,10 +31,10 @@ info()
 	usb=$=$(lspci |grep -i usb | head -n1 |cut -d: -f3 |cut -c-59)
 #Płyta główna
 	plyta=$(sudo  dmidecode -t baseboard |grep -i manuf| cut -d: -f2)
-        plyta=$(sudo  dmidecode -t baseboard |grep -i prod | cut -d: -f2)
+        plyta1=$(sudo  dmidecode -t baseboard |grep -i prod | cut -d: -f2)
 #Bios
 	bios=$(sudo dmidecode -t bios |grep -i ven | cut -d: -f2)
-        bios=$(sudo dmidecode -t bios |grep -i ver | cut -d: -f2)
+        bios1=$(sudo dmidecode -t bios |grep -i ver | cut -d: -f2)
 #Chipset
 	chipset=$(lspci |grep -i VGA |cut -d: -f3 |cut -c-25)
 #Video
@@ -53,8 +53,8 @@ echo
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "" "" "Diagnostyka komputera" ""
 echo
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Procesor" "rdzenie >$rdzenie |nazwa > $cpu1 $cpu2 " "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Pamięć RAM" "-" "$typram $czestotliwoscram" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Pamięć RAM" "-" "Calkowita >$ramt" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Pamięć RAM" "-" "$typramu $ramczestotliwosc" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Pamięć RAM" "-" "Calkowita >$ramt |Wolna $ramf| Zajeta $ramu" "" 
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Dyski HDD" "-" "model > $hdd1 | nazwa > $hddname " "" 
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Dyski HDD" "-" "Calkowita > $hddfull |Zajeta  > $hddzajete | Dostepna > $hhddostepna" "" 
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Inne napędy" "-" "usb > $usb" "" 
