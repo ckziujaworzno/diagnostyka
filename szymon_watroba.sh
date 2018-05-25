@@ -27,24 +27,20 @@ info()
 	hddzajete=$(df -H | grep ^/dev/ |cut -f3 -d '/'| awk '{ print $3 }')
 	hdddostepne=$(df -H | grep ^/dev/ |cut -f3 -d '/'| awk '{ print $4 }')
 	hddprocent=$(df -H | grep ^/dev/ |cut -f3 -d '/'| awk '{ print $5 }')
-	hddmodel=$(hdparm -i /dev/sda |grep -i model)
 #Inne napędy
-	napedy=$( cat /var/log/dmesg | grep -i cd-rom|head -n 1 |cut -d: -f5)
+	napedy=$(tu wpisz polecenie)
 #Płyta główna
-	plyta=$(dmidecode -t baseboard |grep -e  Manufacturer|cut -d: -f2)
+	plyta=$(tu wpisz polecenie)
 #Bios
 	bios=$(tu wpisz polecenie)
 #Chipset
 	chipset=$(tu wpisz polecenie)
 #Video
-	video=$(dmidecode -t baseboard |grep -i description |cut -d: -f2|head -n 1)
+	video=$(tu wpisz polecenie)
 #Audio
-	audio=$(dmidecode -t baseboard |grep -i description |cut -d: -f2|head -n 2)
+	audio=$(tu wpisz polecenie)
 #Karta sieciowa
-	ethernet=$(lshw -class network |grep -e product |cut -d: -f2)
-	ethetnet2=$(dmidecode -t baseboard |grep -i description |cut -d: -f2|head -n|head -n 3)
-
-
+	ethernet=$(tu wpisz polecenie)
 }
 
 while :
