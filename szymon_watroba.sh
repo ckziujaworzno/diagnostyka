@@ -28,19 +28,23 @@ info()
 	hdddostepne=$(df -H | grep ^/dev/ |cut -f3 -d '/'| awk '{ print $4 }')
 	hddprocent=$(df -H | grep ^/dev/ |cut -f3 -d '/'| awk '{ print $5 }')
 #Inne napędy
-	napedy=$(tu wpisz polecenie)
+	napedy=$(lspci | grep -i usb | head -n1 | cut -d: -f3 | cut -c-59)
+        cdrom=$(dmesg | egrep -i --color 'cdrom' | cut -d: -f2)
+        cdrom1=$(dmesg | egrep -i --color 'cdrom' | cut -d: -f3)
 #Płyta główna
-	plyta=$(tu wpisz polecenie)
+	plyta=$(sudo dmidecode -t baseboard | grep -i manuf| cut -d: -f2)
+        plyta1=$(sudo dmidecode -t baseboard | grep -i prod| cut -d: -f2)
 #Bios
-	bios=$(tu wpisz polecenie)
+	bios=$(dmidecode -t bios |grep -i ven | cut -d: -f2)
+        bios1=$(dmidecode -t bios |grep -i ver | cut -d: -f2)
 #Chipset
-	chipset=$(tu wpisz polecenie)
+	chipset=$(lspci | grep -1 vga| cut -d: -f3| cut -c-25)
 #Video
-	video=$(tu wpisz polecenie)
+	video=$(lspci | grep -1 VGA| cut -d: -f3| cut -c-63)
 #Audio
-	audio=$(tu wpisz polecenie)
+	audio=$(lspci | grep -1 audio| cut -d: -f3| cut -c-60)
 #Karta sieciowa
-	ethernet=$(tu wpisz polecenie)
+	ethernet=$(lspci | egrep -i --color 'network|ethernet' | cut -d: -f3 | cut -c-55)
 }
 
 while :
@@ -50,20 +54,20 @@ clear
 echo 
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "" "" "Diagnostyka komputera" ""
 echo
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Procesor" "-" "tutaj powinny być paramery CPU " "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Pamięć RAM" "-" "tutaj powinny być paramery,typ,częstotliość" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Pamięć RAM" "-" "tutaj powinno być wykorzystanie" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Dyski HDD" "-" "tutaj powinien być model, paramery" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Dyski HDD" "-" "tutaj powinno być wykorzystanie dysków" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Inne napędy" "-" "tutaj powinien być model" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Płyta główna" "-" "tutaj powinien być model" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Bios" "-" "tutaj powinien być model" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Chipset" "-" "tutaj powinien być model" ""
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Video" "-" "tutaj powinien być model" ""
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Audio" "-" "tutaj powinien być model" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Karta sieciowa" "-" "tutaj powinien być model" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Procesor" "-" "rdzenie > $rdzenie | nazwa > $cpu1 $cpu2" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Pamięć RAM" "-" "$typramu $ramczestotliwosc" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Pamięć RAM" "-" "$ramt $ramf $ramu" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Dyski HDD" "-" "model > $hdd1 | nazwa > $hddname" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Dyski HDD" "-" "Calkowite > $hddfull | Zajete > $hddzajete |Dostepne > $hdddostepne |Procent > $hddprocent" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Inne napędy" "-" "CD-ROM > $cdrom $cdrom1 | USB > $usb" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Płyta główna" "-" "$plyta $plyta1" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Bios" "-" "$bios $bios1" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Chipset" "-" "$chipset" ""
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Video" "-" "$video" ""
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Audio" "-" "$audio" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Karta sieciowa" "-" "$ethernet" "" 
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "" "" "" ""
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Imię" "" "Nazwisko" ""
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Szymon" "" "Watroba" ""
 echo
 done
 
