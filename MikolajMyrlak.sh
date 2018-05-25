@@ -33,7 +33,8 @@ info()
 	plyta=$(dmidecode -t baseboard | grep -i manuf| cut -d: -f2)
 	plyta1=$(dmidecode -t baseboard | grep -i prod| cut -d: -f2)
 #Bios
-	bios=$(tu wpisz polecenie)
+	bios=$(dmidecode -t bios | grep -i ven | cut -d: -f2)
+	bios1=$(dmidecode -t bios | grep -i "BIOS rev" | cut -d: -f2)
 #Chipset
 	chipset=$(tu wpisz polecenie)
 #Video
@@ -58,7 +59,7 @@ printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Dyski HDD" "-" "tutaj powinien by�
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Dyski HDD" "-" "tutaj powinno być wykorzystanie dysków" "" 
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Inne napędy" "-" "tutaj powinien być model" "" 
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Płyta główna" "-" "$plyta $plyta1" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Bios" "-" "tutaj powinien być model" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Bios" "-" "$bios $bios1" "" 
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Chipset" "-" "tutaj powinien być model" ""
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Video" "-" "tutaj powinien być model" ""
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Audio" "-" "tutaj powinien być model" "" 
