@@ -32,19 +32,19 @@ info()
         cdrom=$(dmesg | egrep -i --color  "cdrom" | cut -d: -f2)
         cdrom1=$(dmesg | egrep -i --color  "cdrom" | cut -d: -f3)
 #Płyta główna
-	plyta=$(dmidecode -t baseboard | grep -i manuf| cut -d: f2)
-        plyta1=$(dmidecode -t baseboard | grep -i prod| cut -d: f2)
+	plyta=$(sudo dmidecode -t baseboard | grep -i manuf| cut -f 2 -d:)
+        plyta1=$(sudo dmidecode -t baseboard | grep -i prod| cut -f 2 -d:)
 #Bios
-	bios=$(dmidecode -t bios | grep -i ven | cut -d: f2)
-        bios1=$(dmidecode -t bios | grep -i ver | cut -d: f2)
+	bios=$(dmidecode -t bios | grep -i ven | cut -f 2 -d:)
+        bios1=$(dmidecode -t bios | grep -i ver | cut -f 2 -d:)
 #Chipset
-	chipset=$(lspci |grep -i vga | cut -d: f3 | cut -c-25)
+	chipset=$(lspci |grep -i VGA | head -n1 | cut -f 2 -d:| cut -c-25)
 #Video
 	video=$(lspci | grep -i VGA | cut -d: -f3 | cut -c-63)
 #Audio
 	audio=$(lspci | grep -i audio | cut -d: -f3 | cut -c-60)
 #Karta sieciowa
-	ethernet=$(lspci | egrep -i --color "network|ethernet" | cut -d: -f3 | cut -c-55)
+	ethernet=$(lspci | egrep -i --color "network|ethernet" | cut -d: -f3 | cut -c-50)
 }
 
 while :
