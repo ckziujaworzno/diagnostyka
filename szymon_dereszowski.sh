@@ -8,8 +8,8 @@ info()
 	ramt=$(free -m |grep [0-9]|head -n 1|awk '{print $2}')
 	ramf=$(free -m |grep [0-9]|head -n 1 |awk '{print $4}')
 	ramu=$(free -m |grep [0-9]|head -n 1 |awk '{print $3}')
-	typramu=$()
-	ramczestotliwosc=$()
+	typramu=$(dmidecode |grep DDR |awk '{ print $2 }' |head -n 1)
+	ramczestotliwosc=$(dmidecode -t 17 | grep -i speed | head -n1| cut -d: -f2)
 	
 #paramery procesora
 	cpu1=$(cat /proc/cpuinfo |grep "model name" |head -n 1| cut -f2 -d:|awk '{print $1}')
@@ -28,19 +28,19 @@ info()
 	hdddostepne=$(df -H | grep ^/dev/ |cut -f3 -d '/'| awk '{ print $4 }')
 	hddprocent=$(df -H | grep ^/dev/ |cut -f3 -d '/'| awk '{ print $5 }')
 #Inne napędy
-	napedy=$(tu wpisz polecenie)
+	napedy=$(cat /var/log/dmesg |grep CD)
 #Płyta główna
-	plyta=$(tu wpisz polecenie)
+	plyta=$(dmidecode -t baseboard |grep -i manuf |cut -d: -f2)
 #Bios
-	bios=$(tu wpisz polecenie)
+	bios=$(dmidecode -t bios |grep -i "bios revision"|cut -d: -f2)
 #Chipset
-	chipset=$(tu wpisz polecenie)
+	chipset=$(lspci -v |grep -i vga |cut -d: -f2)
 #Video
-	video=$(tu wpisz polecenie)
+	video=$(dmidecode |grep Media |cut -d: -f2)
 #Audio
-	audio=$(tu wpisz polecenie)
+	audio=$(dmidecode |grep Audio |tail -n 1)
 #Karta sieciowa
-	ethernet=$(tu wpisz polecenie)
+	ethernet=$(lspci |grep Ethernet |cut -c30-72)
 }
 
 while :
@@ -50,20 +50,20 @@ clear
 echo 
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "" "" "Diagnostyka komputera" ""
 echo
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Procesor" "-" "tutaj powinny być paramery CPU " "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Pamięć RAM" "-" "tutaj powinny być paramery,typ,częstotliość" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Pamięć RAM" "-" "tutaj powinno być wykorzystanie" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Dyski HDD" "-" "tutaj powinien być model, paramery" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Dyski HDD" "-" "tutaj powinno być wykorzystanie dysków" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Inne napędy" "-" "tutaj powinien być model" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Płyta główna" "-" "tutaj powinien być model" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Bios" "-" "tutaj powinien być model" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Chipset" "-" "tutaj powinien być model" ""
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Video" "-" "tutaj powinien być model" ""
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Audio" "-" "tutaj powinien być model" "" 
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Karta sieciowa" "-" "tutaj powinien być model" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Procesor" "-" "$cpu1 $cpu2 $cpu3 $cpu4" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Pamięć RAM" "-" "$typramu $ramczenstotliwosc" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Pamięć RAM" "-" "$ramu $ramf $ramu" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Dyski HDD" "-" "$hddname $hddfull" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Dyski HDD" "-" "$hddrodzaje $hdddostepne $hddprocent" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Inne napędy" "-" "$napendy" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Płyta główna" "-" "$plyta" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Bios" "-" "$bios" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Chipset" "-" "$chipset" ""
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Video" "-" "$video" ""
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Audio" "-" "$audio" "" 
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Karta sieciowa" "-" "$ethernet" "" 
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "" "" "" ""
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Imię" "" "Nazwisko" ""
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Szymon" "" "Dereszowski" ""
 echo
 done
 
