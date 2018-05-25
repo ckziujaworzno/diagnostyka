@@ -38,7 +38,7 @@ info()
 	bios=$(sudo dmidecode -t bios |grep -i ven |cut -d: -f2)
 	bios2=$(sudo dmidecode -t bios |grep -i ver |cut -d: -f2)
 #Chipset
-	chipset=$(lspci |grep -i VGA |head -n1 | cut -d: -f3|cut 
+	chipset=$(lspci |grep -i VGA |head -n1 | cut -d: -f3|cut -c-25)
 #Video
 	video=$(lspci |grep -i vga |head -n1 | cut -d: -f3|cut -c-63)
 #Audio
@@ -62,12 +62,12 @@ printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Dyski HDD" "-" "calkowita> $hddful
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Inne napędy" "-" "cd-rom> $cdrom $cdrom1 | usb> $usb" ""
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Płyta główna" "-" "plyta glowna> $plyta $plyta1" ""
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Bios" "-" "bios> $bios $bios2" ""
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Chipset" "-" "chpiset> $chipset" ""
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Chipset" "-" "chipset> $chipset" ""
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Video" "-" "video> $video" ""
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Audio" "-" "audio> $audio" ""
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Karta sieciowa" "-" "karta sieciowa> $ethernet" ""
 printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "" "" "" ""
-printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Imię" "" "Nazwisko" ""
+printf "%-1s %-15s %-1s %-40s %-1s  %s\n" "" "Jakub" "" "Fudali" ""
 echo
 done
 
